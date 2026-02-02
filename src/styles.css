@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+.bg-EFB-primary {
+  background-color: rgb(101, 183, 90);
+}
+
+.bg-EFB-secondary{
+  background-color: rgb(19, 70, 56);
+}
+
+.text-EFB-primary {
+  color: rgb(101, 183, 90);
+}
+.text-EFB-secondary {
+  color: rgb(19, 70, 56);
+}
