@@ -14,39 +14,53 @@
           <div class="col text-center">Participants</div>
           <div class="col text-end">Volunteer category</div>
         </div>
-        <hr class="d-none d-md-block">
 
-        <div class="row py-2">
-          <div class="col-12 col-md">
-            <small class="text-muted d-md-none">Activity</small>
-            <p class="mb-1 mb-md-0">Activity name</p>
+        <!-- Loading placeholders -->
+        @if(loading){
+          @for(n of [1,2,3,4,5]; track n){
+            <div class="row py-2">
+              <div class="col-12 col-md">
+                <span class="placeholder col-6"></span>
+              </div>
+              <div class="col-12 col-md text-md-center">
+                <span class="placeholder col-4"></span>
+              </div>
+              <div class="col-12 col-md text-md-end">
+                <span class="placeholder col-5"></span>
+              </div>
+            </div>
+          }
+        }
+
+        <!-- Aggregated data -->
+        @if(!loading && aggregated.length === 0){
+          <p class="text-muted">No scan records yet.</p>
+        }
+
+        @for(data of aggregated; track $index){
+          <hr class="d-none d-md-block" />
+          <div class="row py-2">
+            <div class="col-12 col-md">
+              <small class="text-muted d-md-none">Activity</small>
+              <p class="mb-1 mb-md-0">{{ data.ActivityName }}</p>
+            </div>
+            <div class="col-12 col-md text-md-center">
+              <small class="text-muted d-md-none">Participants</small>
+              <p class="mb-1 mb-md-0">{{ data.Participants }}</p>
+            </div>
+            <div class="col-12 col-md text-md-end">
+              <small class="text-muted d-md-none">Volunteer type</small>
+              <p class="mb-0">{{ data.VolunteerCategory }}</p>
+            </div>
           </div>
-
-          <div class="col-12 col-md text-md-center">
-            <small class="text-muted d-md-none">Participants</small>
-            <p class="mb-1 mb-md-0">number of participants</p>
-          </div>
-
-          <div class="col-12 col-md text-md-end">
-            <small class="text-muted d-md-none">Volunteer type</small>
-            <p class="mb-0">volunteer type</p>
-          </div>
-        </div>
-
-        <hr>
-
-        <div class="row py-2">
-          <div class="col-12 col-md">Activity name</div>
-          <div class="col-12 col-md text-md-center">number of participants</div>
-          <div class="col-12 col-md text-md-end">volunteer type</div>
-        </div>
+        }
       </div>
     </div>
 
     <div class="col-12 col-md-3">
-      <div class="border p-3 bg-light text-dark rounded text-center h-100">
-        <h2>Total entries</h2>
-        <p class="display-6 fw-bold">X</p>
+      <div class="border p-3 bg-light text-dark rounded text-center">
+        <h2>Total scans</h2>
+        <p class="display-6 fw-bold">{{ totalScans }}</p>
       </div>
     </div>
   </div>

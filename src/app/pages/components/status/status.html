@@ -1,0 +1,27 @@
+<div class="container py-3">
+  <h2>API Status History</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(entry of statusHistory; track $index) {
+        <tr>
+          <td
+            [ngClass]="{
+              'text-success': entry.status === 'OK',
+              'text-danger': entry.status === 'ERROR',
+            }"
+          >
+            {{ entry.status }}
+          </td>
+          <td>{{ entry.timestamp | date: 'short' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
