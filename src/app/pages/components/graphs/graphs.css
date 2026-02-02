@@ -1,0 +1,21 @@
+h1 {
+  letter-spacing: -0.5px;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.card-title {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+canvas {
+  max-height: 320px;
+}
+
+.placeholder {
+  height: 180px;
+  border-radius: 1rem;
+}

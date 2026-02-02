@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { DataGet } from '../../../shared/services/data-get.service';
 import { AggregatedData, ScanDatum } from '../../../shared/interfaces/scan.interface';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   imports: [],
+  providers: [DataGet],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -12,40 +16,31 @@ export class Home {
   scanData: ScanDatum[] = [];
   aggregated: AggregatedData[] = [];
   totalScans = 0;
-  loading = true;
+  loading: boolean = true;
 
-  constructor(private scanService: DataGet) {}
+  constructor(private route: ActivatedRoute) {
+    const res = this.route.snapshot.data['scans'];
 
-  ngOnInit(): void {
-    this.loading = true;
-    this.scanService.getData().subscribe(
-      (res) => {
-        this.scanData = res.scanData || [];
-        this.totalScans = this.scanData.length;
+    this.scanData = res?.scanData || [];
+    this.totalScans = this.scanData.length;
 
-        const map = new Map<string, AggregatedData>();
-        this.scanData.forEach((scan) => {
-          const volunteerCategory = scan.ContCategory || 'Unknown';
-          const key = `${scan.Activity}||${volunteerCategory}`;
+    const map = new Map<string, AggregatedData>();
+    this.scanData.forEach((scan) => {
+      const cat = scan.ContCategory || 'Unknown';
+      const key = `${scan.Activity}||${cat}`;
 
-          if (map.has(key)) {
-            map.get(key)!.Participants += 1;
-          } else {
-            map.set(key, {
-              ActivityName: scan.Activity || 'Unknown',
-              Participants: 1,
-              VolunteerCategory: volunteerCategory,
-            });
-          }
+      if (map.has(key)) {
+        map.get(key)!.Participants++;
+      } else {
+        map.set(key, {
+          ActivityName: scan.Activity || 'Unknown',
+          Participants: 1,
+          VolunteerCategory: cat,
         });
+      }
+    });
 
-        this.aggregated = Array.from(map.values());
-        this.loading = false;
-      },
-      () => {
-        this.aggregated = [];
-        this.loading = false;
-      },
-    );
+    this.aggregated = Array.from(map.values());
+    this.loading = false;
   }
 }

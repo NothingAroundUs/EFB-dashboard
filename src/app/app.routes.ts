@@ -1,37 +1,27 @@
+import { Documentation } from './pages/components/documentation/documentation';
 import { Routes } from '@angular/router';
+import { Home } from './pages/components/home/home';
+import { Status } from './pages/components/status/status';
+import { Volunteers } from './pages/components/volunteers/volunteers';
+import { scansResolver } from './core/resolvers/scans.resolver';
+import { statusResolver } from './core/resolvers/status.resolver';
+import { usersResolver } from './core/resolvers/user.resolver';
+import { Graphs } from './pages/components/graphs/graphs';
 
 export const routes: Routes = [
   {
     path: '',
-    title: 'Summary',
-    loadComponent: () =>
-      import('./pages/components/home/home').then((m) => m.Home),
-  },
-  {
-    path: 'doc',
-    title: 'Documentation',
-    loadComponent: () =>
-      import('./pages/components/documentation/documentation').then(
-        (m) => m.Documentation
-      ),
-  },
-  {
-    path: 'status',
-    title: 'API Status',
-    loadComponent: () =>
-      import('./pages/components/status/status').then((m) => m.Status),
-  },
-  {
-    path: 'volunteers',
-    title: 'Volunteers',
-    loadComponent: () =>
-      import('./pages/components/volunteers/volunteers').then(
-        (m) => m.Volunteers
-      ),
-  },
-  {
-    path: '**',
-    redirectTo: '',
-    pathMatch: 'full',
+    resolve: {
+      scans: scansResolver,
+      status: statusResolver,
+      users: usersResolver,
+    },
+    children: [
+      { path: '', component: Home, title: "Summery" },
+      { path: 'status', component: Status, title: "API Status" },
+      { path: 'volunteers', component: Volunteers, title: "Volunteers" },
+      { path: 'graph', component: Graphs, title: "Graphs" },
+      { path: 'doc', component: Documentation, title: "Documentation" },
+    ],
   },
 ];

@@ -1,1 +1,44 @@
-<p>graphs works!</p>
+<div class="container py-4">
+  <h1 class="mb-4 fw-bold">Analytics Dashboard</h1>
+
+  @if (loading) {
+    <div class="placeholder-glow">
+      <div class="placeholder col-12 mb-3"></div>
+      <div class="placeholder col-12 mb-3"></div>
+    </div>
+  }
+
+  @if (!loading) {
+    <div class="row g-4">
+      <!-- Activity Chart -->
+      <div class="col-12 col-lg-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">Participants per Activity</h5>
+            <canvas id="activityChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Volunteer Category -->
+      <div class="col-12 col-lg-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">Volunteer Categories</h5>
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time series -->
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Scans Over Time</h5>
+            <canvas id="timeChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
