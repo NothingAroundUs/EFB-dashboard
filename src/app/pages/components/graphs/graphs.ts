@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataGet } from '../../../shared/services/data-get.service';
 import { ScanDatum, AggregatedData } from '../../../shared/interfaces/scan.interface';
@@ -24,13 +24,11 @@ export class Graphs implements AfterViewInit, OnDestroy {
   totalScans = 0;
 
   private charts: Chart[] = [];
+  private dataService = inject(DataGet);
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
-  constructor(
-    private dataService: DataGet,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute, // reuse the resolver data
-  ) {
+  constructor() {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(() => this.reload());
@@ -49,28 +47,21 @@ export class Graphs implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.ready = false;
 
-    // Use resolver data if available
-    const res = this.route.snapshot.data['scans'];
-
-    if (res) {
-      this.processData(res.scanData || []);
-    } else {
-      // fallback to service if resolver not used
-      this.dataService.getData().subscribe({
-        next: (res) => this.processData(res.scanData || []),
-        error: () => {
-          this.loading = false;
-          this.ready = false;
-        },
-      });
-    }
+    // Fetch data live from service (no resolver)
+    this.dataService.getData().subscribe({
+      next: (res) => this.processData(res.scanData || []),
+      error: () => {
+        this.loading = false;
+        this.ready = false;
+      },
+    });
   }
 
   private processData(scanData: ScanDatum[]) {
     this.scanData = scanData;
     this.totalScans = scanData.length;
 
-    // Aggregate data like Home component
+    // Aggregate scan data
     const map = new Map<string, AggregatedData>();
     this.scanData.forEach((scan) => {
       const cat = scan.ContCategory || 'Unknown';
@@ -88,18 +79,17 @@ export class Graphs implements AfterViewInit, OnDestroy {
     });
 
     this.aggregated = Array.from(map.values());
-
     this.loading = false;
     this.ready = true;
     this.cdr.detectChanges();
 
+    // Build charts asynchronously
     queueMicrotask(() => this.buildCharts());
   }
 
   /* =======================
      Chart Builders
      ======================= */
-
   private buildCharts() {
     this.destroyCharts();
     this.activityChart();

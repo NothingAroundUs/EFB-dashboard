@@ -1,42 +1,55 @@
 <div class="container py-3">
   <h1 class="mb-4">Registered Users</h1>
-
   <div class="table-responsive">
     <table class="table table-striped">
       <thead class="table-light">
         <tr>
-          <th>Name</th>
+          <th>
+            <div class="d-flex align-items-center">
+              <span>Name</span>
+              <input
+                type="text"
+                class="form-control form-control-sm ms-2"
+                placeholder="Search..."
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="applyFilter()"
+                style="width: 60%"
+              />
+            </div>
+          </th>
           <th>Email</th>
           <th>ID</th>
           <th>Contribution Category</th>
+          <th>Total Activity (In hours)</th>
         </tr>
       </thead>
       <tbody>
-
         <!-- Loading placeholders -->
-        @if(loading){
-          @for(n of [1,2,3,4,5]; track n){
+        @if (loading) {
+          @for (n of [1, 2, 3, 4, 5]; track n) {
             <tr>
               <td><span class="placeholder col-6"></span></td>
               <td><span class="placeholder col-8"></span></td>
               <td><span class="placeholder col-4"></span></td>
               <td><span class="placeholder col-5"></span></td>
+              <td><span class="placeholder col-3"></span></td>
             </tr>
           }
         }
 
         <!-- Actual users -->
-        @for(user of users; track $index){
+        @for (user of filteredUsers; track $index) {
           <tr>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.id }}</td>
             <td>{{ user.contCategory }}</td>
+            <td>{{ user.totalHours }}</td>
           </tr>
         }
 
         <!-- No users message -->
-        @if(!loading && users.length === 0){
+        @if (!loading && users.length === 0) {
           <tr>
             <td colspan="4" class="text-center text-muted">No users registered yet.</td>
           </tr>

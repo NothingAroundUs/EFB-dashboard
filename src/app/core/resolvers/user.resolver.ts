@@ -2,7 +2,7 @@ import { ResolveFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { DataGet } from '../../shared/services/data-get.service';
 import { UserList } from '../../shared/interfaces/user.interface';
-import { catchError, of } from 'rxjs';
+import { catchError, of, take } from 'rxjs';
 
 export const usersResolver: ResolveFn<UserList> = () => {
   return inject(DataGet)
@@ -11,5 +11,6 @@ export const usersResolver: ResolveFn<UserList> = () => {
       catchError(
         () => of({ users: [] }),
       ),
+
     );
 };

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { DataGet } from '../../../shared/services/data-get.service';
 import { AggregatedData, ScanDatum } from '../../../shared/interfaces/scan.interface';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -13,16 +13,46 @@ import { filter } from 'rxjs';
   styleUrl: './home.css',
 })
 export class Home {
+  loading = true;
+  ready = false;
   scanData: ScanDatum[] = [];
   aggregated: AggregatedData[] = [];
   totalScans = 0;
-  loading: boolean = true;
 
-  constructor(private route: ActivatedRoute) {
-    const res = this.route.snapshot.data['scans'];
+  private dataService = inject(DataGet);
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
-    this.scanData = res?.scanData || [];
-    this.totalScans = this.scanData.length;
+  constructor() {
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => this.reload());
+  }
+
+  ngAfterViewInit(): void {
+    this.reload();
+  }
+
+  ngOnDestroy(): void {
+    // no charts to destroy here, but keeping symmetry
+  }
+
+  private reload() {
+    this.loading = true;
+    this.ready = false;
+
+    this.dataService.getData().subscribe({
+      next: (res) => this.processData(res.scanData || []),
+      error: () => {
+        this.loading = false;
+        this.ready = false;
+      },
+    });
+  }
+
+  private processData(scanData: ScanDatum[]) {
+    this.scanData = scanData;
+    this.totalScans = scanData.length;
 
     const map = new Map<string, AggregatedData>();
     this.scanData.forEach((scan) => {
@@ -42,5 +72,7 @@ export class Home {
 
     this.aggregated = Array.from(map.values());
     this.loading = false;
+    this.ready = true;
+    this.cdr.detectChanges();
   }
 }

@@ -11,18 +11,19 @@ import { Graphs } from './pages/components/graphs/graphs';
 export const routes: Routes = [
   {
     path: '',
-    resolve: {
-      scans: scansResolver,
-      status: statusResolver,
-      users: usersResolver,
-    },
-    runGuardsAndResolvers: 'always', 
-    children: [
-      { path: '', component: Home, title: 'Summery' },
-      { path: 'status', component: Status, title: 'API Status' },
-      { path: 'volunteers', component: Volunteers, title: 'Volunteers' },
-      { path: 'graph', component: Graphs, title: 'Graphs' },
-      { path: 'doc', component: Documentation, title: 'Documentation' },
-    ],
+    component: Home,
+    title: 'Home',
   },
+  {
+    path: 'status',
+    component: Status,
+    title: 'API Status',
+  },
+  {
+    path: 'volunteers',
+    component: Volunteers,
+    title: 'Volunteers Overview'
+  },
+  { path: 'graph', component: Graphs, title: 'Graphs' },
+  { path: 'doc', component: Documentation, title: 'Documentation' },
 ];

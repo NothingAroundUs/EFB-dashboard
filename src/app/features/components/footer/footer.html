@@ -18,10 +18,10 @@
       <div class="col-6 col-md-4 col-lg-2">
         <h6 class="fw-bold mb-3">Dashboard</h6>
         <ul class="list-unstyled small">
-          <li><a routerLink="/" class="text-muted text-decoration-none">Overview</a></li>
-          <li><a routerLink="/graph" class="text-muted text-decoration-none">Graphs</a></li>
+          <li><a [routerLink]="['/']" class="text-muted text-decoration-none">Overview</a></li>
+          <li><a [routerLink]="['/graph']" class="text-muted text-decoration-none">Graphs</a></li>
           <li>
-            <a routerLink="/volunteers" class="text-muted text-decoration-none">Volunteers</a>
+            <a [routerLink]="['/volunteers']" class="text-muted text-decoration-none">Volunteers</a>
           </li>
         </ul>
       </div>
@@ -30,8 +30,8 @@
       <div class="col-6 col-md-4 col-lg-2">
         <h6 class="fw-bold mb-3">Resources</h6>
         <ul class="list-unstyled small">
-          <li><a routerLink="/doc" class="text-muted text-decoration-none">Documentation</a></li>
-          <li><a routerLink="/status" class="text-muted text-decoration-none">API Status</a></li>
+          <li><a [routerLink]="['/doc']" class="text-muted text-decoration-none">Documentation</a></li>
+          <li><a [routerLink]="['/status']" class="text-muted text-decoration-none">API Status</a></li>
         </ul>
       </div>
 

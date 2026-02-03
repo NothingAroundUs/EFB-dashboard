@@ -23,7 +23,7 @@ export class DataGet {
   }
 
   private apiUrls =
-    'https://script.google.com/macros/s/AKfycbymrhSCwAvvY382sNmvrdE4A-vHuVeDxMp_cCpQKcXq1BcutKIf5g_eSkwbAZl2NL8-Yg/exec';
+    'https://script.google.com/macros/s/AKfycbyzyT7zKxwIT31E6aL16ewnJLvjubiP-tZi0bXx1HewdzPiBNyp1sCYt2oMfOfLBZHCOg/exec';
 
   getUsers(): Observable<UserList> {
     return this.http.get<UserList>(this.apiUrls);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StatusEntry } from '../../../shared/interfaces/ApiStatus';
 import { DataGet } from '../../../shared/services/data-get.service';
@@ -13,10 +13,45 @@ import { filter } from 'rxjs';
   styleUrl: './status.css',
 })
 export class Status {
+  loading = true;
+  ready = false;
   statusHistory: StatusEntry[] = [];
 
-  constructor(private route: ActivatedRoute) {
-    const data = this.route.snapshot.data['status'];
-    this.statusHistory = data?.statusHistory?.slice().reverse() || [];
+  private dataService = inject(DataGet);
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
+
+  constructor() {
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => this.reload());
+  }
+
+  ngAfterViewInit(): void {
+    this.reload();
+  }
+
+  ngOnDestroy(): void {
+    // nothing to clean up
+  }
+
+  private reload() {
+    this.loading = true;
+    this.ready = false;
+
+    this.dataService.getStatusHistory().subscribe({
+      next: (res) => this.processData(res.statusHistory || []),
+      error: () => {
+        this.loading = false;
+        this.ready = false;
+      },
+    });
+  }
+
+  private processData(history: StatusEntry[]) {
+    this.statusHistory = history.slice().reverse();
+    this.loading = false;
+    this.ready = true;
+    this.cdr.detectChanges();
   }
 }

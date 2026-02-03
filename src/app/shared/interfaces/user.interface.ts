@@ -7,4 +7,5 @@ export interface UserEntry {
   email: string;
   id: string;
   contCategory: string;
+  totalHours: string;
 }
