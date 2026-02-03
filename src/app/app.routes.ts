@@ -16,12 +16,13 @@ export const routes: Routes = [
       status: statusResolver,
       users: usersResolver,
     },
+    runGuardsAndResolvers: 'always', 
     children: [
-      { path: '', component: Home, title: "Summery" },
-      { path: 'status', component: Status, title: "API Status" },
-      { path: 'volunteers', component: Volunteers, title: "Volunteers" },
-      { path: 'graph', component: Graphs, title: "Graphs" },
-      { path: 'doc', component: Documentation, title: "Documentation" },
+      { path: '', component: Home, title: 'Summery' },
+      { path: 'status', component: Status, title: 'API Status' },
+      { path: 'volunteers', component: Volunteers, title: 'Volunteers' },
+      { path: 'graph', component: Graphs, title: 'Graphs' },
+      { path: 'doc', component: Documentation, title: 'Documentation' },
     ],
   },
 ];
