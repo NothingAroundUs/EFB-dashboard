@@ -5,16 +5,16 @@
       <thead class="table-light">
         <tr>
           <th>
-            <div class="d-flex align-items-center">
-              <span>Name</span>
-              <input
-                type="text"
-                class="form-control form-control-sm ms-2"
-                placeholder="Search..."
-                [(ngModel)]="searchTerm"
-                (ngModelChange)="applyFilter()"
-                style="width: 60%"
-              />
+            <div class="row">
+                <span class="col-lg-4 col-12">Name</span>
+                <input
+                  type="text"
+                  class="form-control form-control-sm ms-2 col-lg-4 col-12"
+                  placeholder="Search..."
+                  [(ngModel)]="searchTerm"
+                  (ngModelChange)="applyFilter()"
+                  style="width: 60%"
+                />
             </div>
           </th>
           <th>Email</th>
