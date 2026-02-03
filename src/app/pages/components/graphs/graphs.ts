@@ -94,7 +94,6 @@ export class Graphs implements AfterViewInit, OnDestroy {
     this.destroyCharts();
     this.activityChart();
     this.categoryChart();
-    this.timeChart();
   }
 
   private destroyCharts() {
@@ -157,32 +156,6 @@ export class Graphs implements AfterViewInit, OnDestroy {
             {
               data: [...map.values()],
               backgroundColor: this.colors(map.size),
-            },
-          ],
-        },
-      }),
-    );
-  }
-
-  private timeChart() {
-    const map = new Map<string, number>();
-    this.scanData.forEach((s) => {
-      const d = new Date(s.Timestamp).toLocaleDateString();
-      map.set(d, (map.get(d) || 0) + 1);
-    });
-
-    this.charts.push(
-      new Chart('timeChart', {
-        type: 'line',
-        data: {
-          labels: [...map.keys()],
-          datasets: [
-            {
-              data: [...map.values()],
-              borderColor: '#0d6efd',
-              backgroundColor: 'rgba(13,110,253,.2)',
-              fill: true,
-              tension: 0.4,
             },
           ],
         },

@@ -3,7 +3,8 @@ export interface Scan {
 }
 
 export interface ScanDatum {
-  Timestamp: string;
+  checkin: string;
+  checkout: string;
   'Serial No.': string;
   Activity: string;
   'Volunteer Name': string;
