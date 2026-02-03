@@ -24,5 +24,5 @@ def add_status(status: str):
         print("Error while sending request:", e)
 
 if __name__ == "__main__":
-    # add_status("OK")
-    add_status("ERROR")
+    add_status("OK")
+    # add_status("ERROR")

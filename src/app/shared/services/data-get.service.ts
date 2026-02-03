@@ -9,7 +9,7 @@ import { UserList } from '../interfaces/user.interface';
 })
 export class DataGet {
   private sheetLink =
-    'https://script.google.com/macros/s/AKfycbwifGmJZ_aa51i3xjPuKi6utKRPKpLhQNaesZt92hq2aG8IyFF-p1WcI5dD7_Vjmfv6/exec';
+    'https://script.google.com/macros/s/AKfycbz3vfgJoSLgqUGnnW93j-1m1v3uip3Yh4PAFtl0NlxjZS6A0VFyNEA-BcKUTNHrxF6R/exec';
   constructor(private http: HttpClient) {}
   getData(): Observable<Scan> {
     return this.http.get<Scan>(this.sheetLink);
