@@ -7,6 +7,7 @@ import { scansResolver } from './core/resolvers/scans.resolver';
 import { statusResolver } from './core/resolvers/status.resolver';
 import { usersResolver } from './core/resolvers/user.resolver';
 import { Graphs } from './pages/components/graphs/graphs';
+import { DownloadPage } from './pages/components/download-page/download-page';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,12 @@ export const routes: Routes = [
   {
     path: 'volunteers',
     component: Volunteers,
-    title: 'Volunteers Overview'
+    title: 'Volunteers Overview',
+  },
+  {
+    path: 'downloads/:version',
+    component: DownloadPage,
+    title: 'Downloading'
   },
   { path: 'graph', component: Graphs, title: 'Graphs' },
   { path: 'doc', component: Documentation, title: 'Documentation' },
