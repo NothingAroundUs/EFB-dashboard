@@ -1,6 +1,9 @@
 <div class="text-center">
   <p>Download should start automatically.</p>
-  <a [href]="'https://egtfb.vercel.app/versions/' + versions + '/EFB.apk'" target="_blank">
+  <a
+    href="#"
+    (click)="forceDownload(version)"
+    *ngIf="version">
     If not, use this link.
   </a>
 </div>
