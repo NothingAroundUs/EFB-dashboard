@@ -25,7 +25,7 @@ export class DownloadPage {
   forceDownload(version: string | null) {
     if (!version) return;
 
-    const url = `https://egtfb.vercel.app/versions/${version}/EFB.apk`;
+    const url = `/versions/${version}/EFB.apk`;
 
     const a = document.createElement('a');
     a.href = url;
