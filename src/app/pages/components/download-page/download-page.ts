@@ -14,22 +14,21 @@ export class DownloadPage {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    const version = this.route.snapshot.paramMap.get('version');
-    this.version = version;
-
-    if (version) {
-      this.forceDownload(version);
+    this.version = this.route.snapshot.paramMap.get('version');
+    if (this.version) {
+      this.forceDownload(this.version);
     }
   }
 
   forceDownload(version: string | null) {
     if (!version) return;
 
-    const url = `/versions/${version}/EFB.apk`;
+    const url = `https://github.com/NothingAroundUs/EFB-dashboard/releases/download/${version}/EFB.apk`;
 
     const a = document.createElement('a');
     a.href = url;
     a.setAttribute('download', '');
+    a.target = '_blank';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
